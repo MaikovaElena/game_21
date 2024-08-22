@@ -1,0 +1,88 @@
+//  код от ИИ контура
+    class Deck {
+        constructor() {
+            this.cards = [];
+        }
+
+        createDeck() { //Создаем колоду, объявляем какие в ней карты: масти и значения
+            const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+            const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+            for (let suit of suits) {
+                for (let value of values) {
+                    this.cards.push({ suit, value });
+                }
+            }
+        }
+
+        shuffle() {
+            for (let i = this.cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+            }
+        }
+
+        deal() {
+            return this.cards.pop();
+        }
+    }
+
+class Player {
+    constructor(name) {
+        this.name = name;
+        this.hand = [];
+        this.score = 0;
+    }
+
+    hit(card) {
+        this.hand.push(card);
+        this.score = this.calculateScore();
+    }
+
+    stand() {
+        return this.score;
+    }
+
+    calculateScore() {
+        let score = 0;
+        let aces = 0;
+
+        for (let card of this.hand) {
+            if (card.value === 'A') {
+                aces++;
+            } else {
+                score += parseInt(card.value);
+            }
+        }
+
+        while (score > 21 && aces > 0) {
+            score -= 10;
+            aces--;
+        }
+
+        return score;
+    }
+}
+
+function playGame() {
+    const deck = new Deck();
+    deck.createDeck();
+    deck.shuffle();
+
+    const player = new Player('Player 1');
+    player.hit(deck.deal());
+    player.hit(deck.deal());
+
+    console.log(`Player's hand: ${player.hand}`);
+    console.log(`Player's score: ${player.calculateScore()}`);
+
+    while (player.calculateScore() < 17) {
+        player.hit(deck.deal());
+        console.log(`Player's hand: ${player.hand}`);
+        console.log(`Player's score: ${player.calculateScore()}`);
+    }
+
+    console.log(`Final score: ${player.calculateScore()}`);
+}
+
+playGame();
