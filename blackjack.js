@@ -1,162 +1,79 @@
-// Объявляем класс, представляющий карту в колоде
-class Card {
-    constructor(suit, value) {
-        this.suit = suit;
-        this.value = value;
+// Здесь задала объект для каждой карты в колоде: объявила карту как константу с определенной мастью и значением
+//Для масти червей (сердечки)
+const twoOfHearts = { value: 2, suit: 'hearts' };
+const threeOfHearts = { value: 3, suit: 'hearts' };
+const fourOfHearts = { value: 4, suit: 'hearts' };
+const fiveOfHearts = { value: 5, suit: 'hearts' };
+const sixOfHearts = { value: 6, suit: 'hearts' };
+const sevenOfHearts = { value: 7, suit: 'hearts' };
+const eightOfHearts = { value: 8, suit: 'hearts' };
+const nineOfHearts = { value: 9, suit: 'hearts' };
+const tenOfHearts = { value: 10, suit: 'hearts' };
+const queenOfHearts = { value: 10, suit: 'hearts' };
+const kingOfHearts = { value: 10, suit: 'hearts' };
+const jackOfHearts = { value: 10, suit: 'hearts' };
+const aceOfHearts = { value: 10, suit: 'hearts' }; // как задать, что у туза может быть 2 значения?
+//Для масти пики
+const twoOfSpades = { value: 2, suit: 'spades' };
+const threeOfSpades = { value: 3, suit: 'spades' };
+const fourOfSpades = { value: 4, suit: 'spades' };
+const fiveOfSpades = { value: 5, suit: 'spades' };
+const sixOfSpades = { value: 6, suit: 'spades' };
+const sevenOfSpades = { value: 7, suit: 'spades' };
+const eightOfSpades = { value: 8, suit: 'spades' };
+const nineOfSpades = { value: 9, suit: 'spades' };
+const tenOfSpades = { value: 10, suit: 'spades' };
+const queenOfSpades = { value: 10, suit: 'spades' };
+const kingOfSpades = { value: 10, suit: 'spades' };
+const jackOfSpades = { value: 10, suit: 'spades' };
+const aceOfSpades = { value: 10, suit: 'spades' }; // как задать, что у туза может быть 2 значения?
+//Для масти бубны (ромбик)
+const twoOfDiamonds = { value: 2, suit: 'diamonds' };
+const threeOfDiamonds = { value: 3, suit: 'diamonds' };
+const fourOfDiamonds = { value: 4, suit: 'diamonds' };
+const fiveOfDiamonds = { value: 5, suit: 'diamonds' };
+const sixOfDiamonds = { value: 6, suit: 'diamonds' };
+const sevenOfDiamonds = { value: 7, suit: 'diamonds' };
+const eightOfDiamonds = { value: 8, suit: 'diamonds' };
+const nineOfDiamonds = { value: 9, suit: 'diamonds' };
+const tenOfDiamonds = { value: 10, suit: 'diamonds' };
+const queenOfDiamonds = { value: 10, suit: 'diamonds' };
+const kingOfDiamonds = { value: 10, suit: 'diamonds' };
+const jackOfDiamonds = { value: 10, suit: 'diamonds' };
+const aceOfDiamonds = { value: 10, suit: 'diamonds' }; // как задать, что у туза может быть 2 значения?
+//Для масти трефы (ромбик)
+const twoOfClubs = { value: 2, suit: 'clubs' };
+const threeOfClubs = { value: 3, suit: 'clubs' };
+const fourOfClubs = { value: 4, suit: 'clubs' };
+const fiveOfClubs = { value: 5, suit: 'clubs' };
+const sixOfClubs = { value: 6, suit: 'clubs' };
+const sevenOfClubs = { value: 7, suit: 'clubs' };
+const eightOfClubs = { value: 8, suit: 'clubs' };
+const nineOfClubs = { value: 9, suit: 'clubs' };
+const tenOfClubs = { value: 10, suit: 'clubs' };
+const queenOfClubs = { value: 10, suit: 'clubs' };
+const kingOfClubs = { value: 10, suit: 'clubs' };
+const jackOfClubs = { value: 10, suit: 'clubs' };
+const aceOfClubs = { value: 10, suit: 'clubs' }; // как задать, что у туза может быть 2 значения?
+// Теперь создаю массив из карт в колоде
+const deck = [twoOfHearts, threeOfHearts, fourOfHearts, fiveOfHearts, sixOfHearts, sevenOfHearts, eightOfHearts, nineOfHearts, tenOfHearts, queenOfHearts, kingOfHearts, jackOfHearts,
+    aceOfHearts, twoOfSpades, threeOfSpades, fourOfSpades, fiveOfSpades, sixOfSpades, sevenOfSpades, eightOfSpades, nineOfSpades, tenOfSpades, queenOfSpades, kingOfSpades,
+    jackOfSpades, aceOfSpades,  twoOfDiamonds, threeOfDiamonds, fourOfDiamonds, fiveOfDiamonds, sixOfDiamonds, sevenOfDiamonds, eightOfDiamonds, nineOfDiamonds, tenOfDiamonds, queenOfDiamonds,
+    kingOfDiamonds, jackOfDiamonds, aceOfDiamonds, twoOfClubs, threeOfClubs, fourOfClubs, fiveOfClubs, sixOfClubs, sevenOfClubs, eightOfClubs, nineOfClubs, tenOfClubs, queenOfClubs,
+    kingOfClubs, jackOfClubs, aceOfClubs];
+// Теперь нужно объявить функцию, которая будет перемешивать колоду.
+//* Буквально говорим следующее: вот есть длина колоды, пока она больше нуля, нужно из нее брать 1 карту. Этот цикл завершится, когда переменная i станет равна нулю.
+// оператор for создаёт цикл, состоящий из трех необязательных выражений, заключенных в круглые скобки
+// и разделенных точкой с запятой, за которыми следует инструкция (часто блок инструкций), которая должна выполняться в цикле. i это переменная,
+// а і++ это увеличение числа в переменной на 1 при каждой итерации цикла.*//
+function shuffleDeck(deck) {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Math.random возвращает псевдослучайное число в диапазоне от 0 (включительно) до 1 (но не включая 1)
+        [deck[i], deck[j]] = [deck[j], deck[i]];
     }
 }
 
-// Объявляем класс, представляющий колоду карт
-class Deck {
-    constructor() {
-        this.cards = [];
-    }
+shuffleDeck(deck); // вызвали функцию перемешивания колоды
+console.log(deck); // вывели результат
 
-    // Создаём стандартную колоду карт
-    createDeck() {
-        const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
-        for (let suit of suits) {
-            for (let value of values) {
-                this.cards.push(new Card(suit, value));
-            }
-        }
-    }
-
-    // Перетасовываем колоду
-    shuffle() {
-        for (let i = this.cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
-        }
-    }
-
-    // Раздаем карту из колоды
-    deal() {
-        return this.cards.pop();
-    }
-}
-
-// Объявляем класс, представляющий игрока в игре
-class Player {
-    constructor(name) {
-        this.name = name;
-        this.hand = [];
-        this.score = 0;
-    }
-
-    // Добавляем карту в руку игрока
-    hit(card) {
-        this.hand.push(card);
-        this.score = this.calculateScore();
-    }
-
-    // Завершаем ход игрока
-    stand() {
-        return this.score;
-    }
-
-    // Вычисляем текущий счет игрока
-    calculateScore() {
-        let score = 0;
-        let aces = 0;
-
-        for (let card of this.hand) {
-            if (card.value === 'A') {
-                aces++;
-            } else {
-                score += parseInt(card.value);
-            }
-        }
-
-        while (score > 21 && aces > 0) {
-            score -= 10;
-            aces--;
-        }
-
-        return score;
-    }
-}
-
-// Функция получения ввода от пользователя
-function getInput(prompt) {
-    return new Promise((resolve) => {
-        process.stdin.resume();
-        process.stdin.setEncoding('utf8');
-        let input = '';
-        process.stdin.on('data', (data) => {
-            input += data;
-        });
-        process.stdin.on('end', () => {
-            resolve(input.trim());
-        });
-        console.log(prompt);
-    });
-}
-
-// Функция сыграть в игру
-async function playGame() {
-    const deck = new Deck();
-    deck.createDeck();
-    deck.shuffle();
-
-    const player = new Player('Player 1');
-    player.hit(deck.deal());
-    player.hit(deck.deal());
-
-    // Отобразим руку игрока и счета. Рука игрока состоит из 2 и более карт, т.е. это те карты, что есть на руках игрока
-    console.log(`Player's hand: ${player.hand}`);
-    console.log(`Player's score: ${player.calculateScore()}`);
-
-    // Продолжаем раздавать карты игроку до тех пор, пока его счет не станет не менее 17
-    while (player.calculateScore() < 17) {
-        player.hit(deck.deal());
-        console.log(`Player's hand: ${player.hand}`);
-        console.log(`Player's score: ${player.calculateScore()}`);
-    }
-
-    // Отобразим окончательный счет игрока
-    console.log(`Final score: ${player.calculateScore()}`);
-
-    // Получим решение игрока: продолжить или нет (hit - взять еще одну карту; stand - «Достаточно» — означает, что игрок не желает более брать карты
-    const decision = await getInput('Do you want to hit or stand? (hit/stand): ');
-
-    // Проверим решение игрока и обновим игру соответствующим образом
-    if (decision.toLowerCase() === 'hit') {
-        player.hit(deck.deal());
-        console.log(`Player's hand: ${player.hand}`);
-        console.log(`Player's score: ${player.calculateScore()}`);
-        if (player.calculateScore() > 21) {
-            console.log('You went over 21. You lose!');
-        }
-    } else if (decision.toLowerCase() === 'stand') {
-        console.log('The bot\'s turn...');
-        const bot = new Player('Bot');
-        bot.hand = player.hand.slice(); // Скопируйте руку игрока для бота
-        bot.score = player.calculateScore();
-
-        // Раздавайте карты боту, пока его счет не станет не менее 17.
-        while (bot.calculateScore() < 17) {
-            bot.hit(deck.deal());
-        }
-
-        console.log(`Bot's hand: ${bot.hand}`);
-        console.log(`Bot's score: ${bot.calculateScore()}`);
-
-        if (bot.calculateScore() > 21) {
-            console.log('The bot went over 21. You win!');
-        } else if (player.calculateScore() > bot.calculateScore()) {
-            console.log('The bot has a higher score. You lose!');
-        } else if (player.calculateScore() < bot.calculateScore()) {
-            console.log('You have a higher score. You win!');
-        } else {
-            console.log('It\'s a tie!');
-        }
-    } else {
-        console.log('Invalid input. The game ends.');
-    }
-}
-
-// Start the game
-playGame();
