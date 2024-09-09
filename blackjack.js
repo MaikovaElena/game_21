@@ -86,11 +86,33 @@ class Player {
         this.score = 0;
     }
 }
-// По аналогии объявляем класс для бота
-class Bot {
-    constructor(name) {
-        this.name = name;
-        this.hand = [];
-        this.score = 0;
+// Раздаем карты игроку
+hit(card) {
+    this.hand.push(card);
+    this.score = this.calculateScore();
+}
+
+stand() {
+    return this.score;
+}
+
+calculateScore() { // вычисляем счет для карты в руке, при этом не забываем логику подсчета тузов
+    let score = 0;
+    let aces = 0;
+
+    for (let card of this.hand) { // здесь начинается цикл for ... while
+        if (card.value === 'aceOfHearts' || 'aceOfSpades' || 'aceOfDiamonds' || 'aceOfClubs') { // Оператор ИЛИ «||» находит первое истинное значение
+            aces++; // если попался туз, то увеличиваем значение 10 на единицу
+        } else {
+            score += parseInt(card.value); //иначе прибавляем значение карты и это значение явно приводим к целому числу с помощью функции parseInt
+        }
     }
+
+    while (score > 21 && aces > 0) { // Оператор И «&&» находит первое ложное значение: т.е. пока счет больше 21 очка и кол-во тузов больше нуля, то
+        score -= 10; // ..то вычитаем значение карты 10 и уменьшаем значение туза на единицу. Т.е. в этом случае туз даёт только 1 очко.
+        aces--;
+    }
+
+    return score; // возвращаем счет
+}
 }
