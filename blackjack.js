@@ -86,3 +86,11 @@ class Player {
         this.score = 0;
     }
 }
+// По аналогии объявляем класс для бота
+class Bot {
+    constructor(name) {
+        this.name = name;
+        this.hand = [];
+        this.score = 0;
+    }
+}
