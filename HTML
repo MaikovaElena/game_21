@@ -6,122 +6,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        #player-hand, #bot-hand {
-            display: inline-block;
-            margin: 10px;
-            border: 1px solid #000;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #player-hand, #bot-hand {
+      display: inline-block;
+      margin: 10px;
+      border: 1px solid #000;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-<h1>Blackjack Game</h1>
-<div id="player-hand" class="hidden"></div>
-<div id="bot-hand" class="hidden"></div>
-<button id="hit-btn" class="hidden" onclick="playerHit()">Hit</button>
-<button id="stand-btn" class="hidden" onclick="playerStand()">Stand</button>
-<script>
+  <h1>Blackjack Game</h1>
+  <div id="player-hand" class="hidden"></div>
+  <div id="bot-hand" class="hidden"></div>
+  <button id="hit-btn" class="hidden" onclick="playerHit()">Hit</button>
+  <button id="stand-btn" class="hidden" onclick="playerStand()">Stand</button>
+  <script>
     // ... (JavaScript code from previous examples) ...
 
     // Function to update the player's hand display
     function updatePlayerHand() {
-        document.getElementById('player-hand').innerHTML = '';
-        for (let card of player.hand) {
-            const cardElement = document.createElement('div');
-            cardElement.textContent = `${card.value} of ${card.suit}`;
-            document.getElementById('player-hand').appendChild(cardElement);
-        }
+      document.getElementById('player-hand').innerHTML = '';
+      for (let card of player.hand) {
+        const cardElement = document.createElement('div');
+        cardElement.textContent = `${card.value} of ${card.suit}`;
+        document.getElementById('player-hand').appendChild(cardElement);
+      }
     }
 
     // Function to update the bot's hand display
     function updateBotHand() {
-        document.getElementById('bot-hand').innerHTML = '';
-        for (let card of bot.hand) {
-            const cardElement = document.createElement('div');
-            cardElement.textContent = `${card.value} of ${card.suit}`;
-            document.getElementById('bot-hand').appendChild(cardElement);
-        }
+      document.getElementById('bot-hand').innerHTML = '';
+      for (let card of bot.hand) {
+        const cardElement = document.createElement('div');
+        cardElement.textContent = `${card.value} of ${card.suit}`;
+        document.getElementById('bot-hand').appendChild(cardElement);
+      }
     }
 
     // Function to update the buttons
     function updateButtons() {
-        document.getElementById('hit-btn').classList.remove('hidden');
-        document.getElementById('stand-btn').classList.remove('hidden');
+      document.getElementById('hit-btn').classList.remove('hidden');
+      document.getElementById('stand-btn').classList.remove('hidden');
     }
 
     // Function to handle the player's decision
     async function playerDecision(decision) {
-        if (decision.toLowerCase() === 'hit') {
-            player.hit(deck.deal());
-            updatePlayerHand();
-            if (player.calculateScore() > 21) {
-                console.log('You went over 21. You lose!');
-                document.getElementById('hit-btn').classList.add('hidden');
-                document.getElementById('stand-btn').classList.add('hidden');
-            } else {
-                updateButtons();
-            }
-        } else if (decision.toLowerCase() === 'stand') {
-            document.getElementById('hit-btn').classList.add('hidden');
-            document.getElementById('stand-btn').classList.add('hidden');
-            updateBotHand();
-            const botScore = bot.calculateScore();
-            console.log(`Bot's hand: ${bot.hand}`);
-            console.log(`Bot's score: ${botScore}`);
-
-            if (botScore > 21) {
-                console.log('The bot went over 21. You win!');
-            } else if (player.calculateScore() > botScore) {
-                console.log('The bot has a higher score. You lose!');
-            } else if (player.calculateScore() < botScore) {
-                console.log('You have a higher score. You win!');
-            } else {
-                console.log('It\'s a tie!');
-            }
+      if (decision.toLowerCase() === 'hit') {
+        player.hit(deck.deal());
+        updatePlayerHand();
+        if (player.calculateScore() > 21) {
+          console.log('You went over 21. You lose!');
+          document.getElementById('hit-btn').classList.add('hidden');
+          document.getElementById('stand-btn').classList.add('hidden');
         } else {
-            console.log('Invalid input. The game ends.');
+          updateButtons();
         }
+      } else if (decision.toLowerCase() === 'stand') {
+        document.getElementById('hit-btn').classList.add('hidden');
+        document.getElementById('stand-btn').classList.add('hidden');
+        updateBotHand();
+        const botScore = bot.calculateScore();
+        console.log(`Bot's hand: ${bot.hand}`);
+        console.log(`Bot's score: ${botScore}`);
+
+        if (botScore > 21) {
+          console.log('The bot went over 21. You win!');
+        } else if (player.calculateScore() > botScore) {
+          console.log('The bot has a higher score. You lose!');
+        } else if (player.calculateScore() < botScore) {
+          console.log('You have a higher score. You win!');
+        } else {
+          console.log('It\'s a tie!');
+        }
+      } else {
+        console.log('Invalid input. The game ends.');
+      }
     }
 
     // Function to get input from the user
     function getInput(prompt) {
-        return new Promise((resolve) => {
-            const input = prompt('Do you want to hit or stand? (hit/stand): ');
-            playerDecision(input);
-            resolve();
-        });
+      return new Promise((resolve) => {
+        const input = prompt('Do you want to hit or stand? (hit/stand): ');
+        playerDecision(input);
+        resolve();
+      });
     }
 
     // Function to play the game
     async function playGame() {
-        // ... (rest of the JavaScript code from previous examples) ...
+      // ... (rest of the JavaScript code from previous examples) ...
 
-        updatePlayerHand();
-        updateBotHand();
-        updateButtons();
+      updatePlayerHand();
+      updateBotHand();
+      updateButtons();
 
-        await getInput();
+      await getInput();
     }
 
     // Start the game
     playGame();
-</script>
+  </script>
 </body>
 </html>
