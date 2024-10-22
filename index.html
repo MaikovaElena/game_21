@@ -1,0 +1,25 @@
+<!DOCTYPE html> <!-- тэгом <!DOCTYPE html> мы сообщаем, что браузеру предстоит работать с HTML-страницей-->
+<html>
+<head> <!-- в head заполняем метаданные: кодировка, название страницы, подключаем файлы и шрифты-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Jack</title> <!--Заголовок-->
+    <link rel="stylesheet" href="blackjack.css"> <!--сылка на подключение к файлу со стилями-->
+    <script src="blackjack.js"></script> <!--здесь ссылка на подключение к скрипту, т.е. к коду на JS-->
+</head>
+
+<body> <!--в body размещаем контент для пользователя-->
+<h2>Dealer: <span id="dealer-sum"></span></h2>
+<div id="dealer-cards">
+    <img id="hidden" src="./cards/BACK.png"> <!--указываем путь до нужной картинки (карта рубашкой вверх)-->
+</div>
+
+<h2>You: <span id="your-sum"></span></h2> <!--здесь пока пусто, но как только заработает JS, то появится значение-->
+<div id="your-cards"></div>
+
+<br>
+<button id="hit">Hit</button> <!--кнопка-->
+<button id="stay">Stay</button> <!--кнопка-->
+<p id="results"></p>
+</body>
+</html>

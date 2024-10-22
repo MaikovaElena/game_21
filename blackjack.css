@@ -1,0 +1,31 @@
+/*здесь указываю стили, чтобы страница выглядела аккуратно*/
+
+body {
+    font-family: Arial, Helvetica, sans-serif; /*шрифты*/
+    text-align: center; /*выравнивание по центру*/
+    background-color:#006400;
+}
+
+#dealer-cards img {
+    height: 175px; /*высота*/
+    width: 125px; /*ширина*/
+    margin: 1px; /*внешний отступ на вех 4 сторонах элемента*/
+}
+
+#your-cards img { /*прописываем название один в один как в HTML файле*/
+    height: 175px;
+    width: 125px;
+    margin: 1px;
+}
+
+#hit {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+
+#stay {
+    width: 100px;
+    height: 50px;
+    font-size: 20px; /*размер шрифта*/
+}
