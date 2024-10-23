@@ -1,18 +1,19 @@
 // задаем начальные значение переменных (сумма дилера и игрока, код-во тузов у дилера и игрока) как ноль.
+// по-сути мы засовываем функции в переменную
 let dealerSum = 0;
 let yourSum = 0;
-
-let dealerAceCount = 0; // тузы считаем отдельно, т.к. их вес зависит от очков.
+// тузы считаем отдельно, т.к. их вес зависит от очков:
+let dealerAceCount = 0;
 let yourAceCount = 0;
 
 let hidden; // карта дилера рубашкой вверх
-let deck;
+let deck; // колода
 
-let canHit = true // позволяем игроку (себе) тянуть карты пока их сумма <= 21 очку
-// при превышении 21 очка кнопка Hit дизейблится
+let canHit = true // позволяем игроку тянуть карты пока их сумма <= 21 очку
+// при превышении 21 очка (false) кнопка Hit дизейблится
 
-//когда страница полностью загрузилась, мы вызываем функции создатния колоды карт, тасовки и начинаем игру
-window.onload = function() {
+//когда страница полностью загрузилась, мы вызываем функции создания колоды карт, тасовки и начинаем игру
+window.onload = function() { //записано через Function Expression
     buildDeck();
     shuffleDeck();
     startGame();
@@ -24,15 +25,13 @@ function buildDeck() {
     let types = ["C", "D", "H", "S"];
     deck = []; // сохраняем это дело в переменную deck (колода)
 
-/* Запускаем цикл for: for (начало; условие; шаг) {
-  // ... тело цикла ...
-}
+/* Запускаем цикл for: https://learn.javascript.ru/while-for#tsikl-for
 Внутри инициализируем переменную i со значением 0, задаем условие, что i меньше длины массива мастей
 и если условие верно, то выполняем цикл, при этом значение переменной i увеличивается на единицу. Цикл будет продолжаться до тех пор,
 пока i не станет равной длине массива мастей (получим false).
 Что происходит в этом цикле for (let j = 0; j < values.length; j++) {
  deck.push(values[j] + "-" + types[i]); - инициализируем переменную j со значением 0, задаем условие, что j меньше массива со значениями
- карт. Цикл по выполняется по аналогии с i. Если условие верно, то в массив deck добавляется карта, состоящая из значения и масти,
+ карт. Цикл выполняется по аналогии с i. Если условие верно, то в массив deck добавляется карта, состоящая из значения и масти,
  разделенных знаком минус, пример: дама-червей (соответствует названиям картинок)*/
     for (let i= 0; i < types.length; i++) {
     for (let j = 0; j < values.length; j++) {
@@ -44,7 +43,7 @@ function buildDeck() {
 /*
 Что просходит внутри функции перемешать колоду: Инициализируем переменную i со значением 0.
 Проверяется, что i меньше длины массива deck.
-Если условие верно, то выполняет вложенный код:
+До тех пор, пока условие верно, то вложенный код:
 1.Генерирует случайное целое число j в диапазоне от 0 до длины массива deck (включительно) с помощью функций Math.random() и Math.floor().
 2.Создает временную переменную temp, которая хранит значение элемента массива deck в позиции i.
 3.Заменяет элемент массива deck в позиции i на элемент массива deck в позиции j.
@@ -52,117 +51,124 @@ function buildDeck() {
 5.Увеличивает значение переменной i на 1 и повторяет процесс до тех пор, пока i не станет равным длине массива deck.
 В результате выполнения этой функции массив deck будет перемешан, и его элементы будут расположены в случайном порядке.*/
 function shuffleDeck() {
-    for (let i = 0; i < deck.length; i++) {
+    for (let i = 0; i < deck.length; i++) { // https://learn.javascript.ru/while-for#tsikl-for
         let j = Math.floor(Math.random() * deck.length);
-        let temp = deck[i];
-        deck[i] = deck[j];
-        deck[j] = temp;
+        let temp = deck[i]; //Временная переменная temp, которая хранит значение элемента массива deck в позиции i.
+        deck[i] = deck[j]; // Заменяем элемент массива deck в позиции i на элемент массива deck в позиции j.
+        deck[j] = temp; // Заменяет элемент массива deck в позиции j на значение временной переменной temp.
    }
     console.log(deck);
 }
 function startGame() {
     hidden = deck.pop();
-    dealerSum += getValue(hidden);
-    dealerAceCount += checkAce(hidden);
-    // console.log(hidden);
-    // console.log(dealerSum);
-    while (dealerSum < 17) {
-        //<img src="./cards/4-C.png">
-        let cardImg = document.createElement("img");
-        let card = deck.pop();
-        cardImg.src = "./cards/" + card + ".png";
-        dealerSum += getValue(card);
-        dealerAceCount += checkAce(card);
-        document.getElementById("dealer-cards").append(cardImg);
+    dealerSum += getValue(hidden); /* совмещённый оператор += добавляет значение справа к значению слева и
+ присваивает результат новому значению слева. В данном случае, += используется для добавления значения,
+ возвращенного функцией getValue(hidden), к текущему значению переменной dealerSum.
+Таким образом, dealerSum обновляется на новое значение, которое представляет сумму карты дилера после добавления скрытой карты hidden.*/
+
+    dealerAceCount += checkAce(hidden); // проверяем, есть ли у дилера тузы, если да +1 очко
+    console.log(hidden); // вывели в консоль скрытую карту
+    console.log(dealerSum); // вывели в консоль сумму дилера
+    while (dealerSum < 17) { // пока сумма очков < 17, выполняем тело цикла ниже.
+        let cardImg = document.createElement("img"); // создали элемент с отображением карты
+        let card = deck.pop(); // забираем карту в руку дилера
+        cardImg.src = "./cards/" + card + ".png"; // говорим откуда брать изображение карты
+        dealerSum += getValue(card); // добавили сумму последней карты к сумме дилера
+        dealerAceCount += checkAce(card); // считаем общую сумму и если есть туз, добавляем его очко/очки
+        document.getElementById("dealer-cards").append(cardImg); // добавили элемент карт дилера на страницу
     }
-    console.log(dealerSum);
-
-    for (let i = 0; i < 2; i++) {
-        let cardImg = document.createElement("img");
-        let card = deck.pop();
-        cardImg.src = "./cards/" + card + ".png";
-        yourSum += getValue(card);
-        yourAceCount += checkAce(card);
-        document.getElementById("your-cards").append(cardImg);
+    console.log(dealerSum); // вывели итоговую сумму очков у дилера
+// теперь очередь тянуть карты игрока
+    for (let i = 0; i < 2; i++) { // инициализируем переменную i со значением 0, пока i < 2, выполняем код ниже:
+        let cardImg = document.createElement("img"); /* создали элемент с отображением карты
+        Все операции с DOM начинаются с объекта document. Это главная «точка входа» в DOM.*/
+        let card = deck.pop();// забираем карту в руку игрока .pop() удаляет последний элемент из массива и возвращает его
+        cardImg.src = "./cards/" + card + ".png"; // говорим откуда брать изображение карты
+        yourSum += getValue(card); // добавили сумму последней карты к сумме игрока
+        yourAceCount += checkAce(card); // считаем общую сумму и если есть туз, добавляем его очко/очки
+        document.getElementById("your-cards").append(cardImg);// добавили элемент карт игрока на страницу
     }
 
-    console.log(yourSum);
-    document.getElementById("hit").addEventListener("click", hit);
-    document.getElementById("stay").addEventListener("click", stay);
-
+    console.log(yourSum); // выводим в консоль сумму игрока
+    document.getElementById("hit").addEventListener("click", hit); /* добавили обработчик событий: при нажатии на кнопку
+     HIT будет запущена функция hit*/
+    document.getElementById("stay").addEventListener("click", stay);/* добавили обработчик событий: при нажатии на кнопку
+     stay будет запущена функция stay*/
 }
-function hit() {
-    if (!canHit) {
-        return;
+function hit() { // собственно функция Hit, которая берет еще одну карту из колоды
+    if (!canHit) { // проверяем можно ли взять карту
+        return; // return без значения приводит к немедленному выходу из функции
     }
 
-    let cardImg = document.createElement("img");
-    let card = deck.pop();
-    cardImg.src = "./cards/" + card + ".png";
-    yourSum += getValue(card);
-    yourAceCount += checkAce(card);
-    document.getElementById("your-cards").append(cardImg);
+    let cardImg = document.createElement("img"); // создали элемент с отображением карты
+    let card = deck.pop(); // забираем карту в руку игрока, .pop() удаляет последний элемент из массива и возвращает его
+    cardImg.src = "./cards/" + card + ".png"; // говорим откуда брать изображение карты
+    yourSum += getValue(card); // добавили сумму последней карты к сумме игрока
+    yourAceCount += checkAce(card); // считаем общую сумму и если есть туз, добавляем его очко/очки
+    document.getElementById("your-cards").append(cardImg); // добавили элемент карт игрока на страницу
 
-    if (reduceAce(yourSum, yourAceCount) > 21) { //A, J, 8 -> 1 + 10 + 8
+    if (reduceAce(yourSum, yourAceCount) > 21) { // если сумма очков игрока больше 21 (тузы считаем отдельно), то он не может брать карты
         canHit = false;
     }
 
 }
 
 function stay() {
-    dealerSum = reduceAce(dealerSum, dealerAceCount);
-    yourSum = reduceAce(yourSum, yourAceCount);
+    dealerSum = reduceAce(dealerSum, dealerAceCount); // считаем сумму у дилера, учитывая наличие тузов, при необходимости уменьшая вес туза
+    yourSum = reduceAce(yourSum, yourAceCount);// считаем сумму у игрока, учитывая наличие тузов, при необходимости уменьшая вес туза
 
-    canHit = false;
+    canHit = false; // игрок больше не может брать карты
     document.getElementById("hidden").src = "./cards/" + hidden + ".png";
 
-    let message = "";
+    let message = ""; // если у игрока сумма > 21 выводим сообщение о проигрыше
     if (yourSum > 21) {
         message = "Проиграв(";
     }
-    else if (dealerSum > 21) {
-        message = "You win!";
+    // здесь начинается условное ветвление https://learn.javascript.ru/ifelse#neskolko-usloviy-else-if
+    else if (dealerSum > 21) { // иначе, выводим сообщение о выигрыше
+        message = "Ура, ты обыграл компухтер!";
     }
-    //both you and dealer <= 21
+    // если у игрока и дилера сумма очков равно, иначе, выводим сообщение о ничьей
     else if (yourSum == dealerSum) {
-        message = "Tie!";
+        message = "Ничья!";
     }
-    else if (yourSum > dealerSum) {
-        message = "You Win!";
+    else if (yourSum > dealerSum) { // если сумма игрока больше суммы дилера, выводим сообщение о выигрыше
+        message = "Ура, ты обыграл компухтер!";
     }
-    else if (yourSum < dealerSum) {
+    else if (yourSum < dealerSum) { // если сумма игрока меньше суммы дилера, выводим сообщение о проигрыше
         message = "Проиграв(";
     }
-
+// показываем суммы игрока и дилера + сообщение
     document.getElementById("dealer-sum").innerText = dealerSum;
     document.getElementById("your-sum").innerText = yourSum;
     document.getElementById("results").innerText = message;
 }
 
 function getValue(card) {
-    let data = card.split("-"); // "4-C" -> ["4", "C"]
-    let value = data[0];
+    let data = card.split("-");/* разбивает строку card на массив data,
+    разделяя ее по символу "-" на два элемента: значение и тип карты.*/
+    let value = data[0]; // получаем значение из массива
 
-    if (isNaN(value)) { //A J Q K
-        if (value == "A") {
+    if (isNaN(value)) { // если значение не номер (т.е. карта с картинкой)
+        if (value == "A") { // если туз, то его вес карты 11
             return 11;
         }
-        return 10;
+        return 10; // а если не туз, то 10
     }
-    return parseInt(value);
+    return parseInt(value); // получаем значение карты, преобразованное в целое число
 }
 
-function checkAce(card) {
-    if (card[0] == "A") {
+function checkAce(card) { // проверяем тузы
+    if (card[0] == "A") { //если туз, то его значение =1, иначе 0. Здесь [0] - это про первый символ в строке
         return 1;
     }
     return 0;
 }
 
-function reduceAce(playerSum, playerAceCount) {
-    while (playerSum > 21 && playerAceCount > 0) {
-        playerSum -= 10;
-        playerAceCount -= 1;
+function reduceAce(playerSum, playerAceCount) { // уменьшаем вес туза в зависимости от суммы карт
+    while (playerSum > 21 && playerAceCount > 0) { // если сумма карт игрока >21 и есть туз,
+        playerSum -= 10; // то уменьшаем сумму карт игрока на 10 (тогда вес туза будет 1, вместо 11)
+        playerAceCount -= 1; // уменьшаем кол-во тузов в руке игрока на 1
     }
-    return playerSum;
+    return playerSum; //возвращаем результат выполнения функции
 }
